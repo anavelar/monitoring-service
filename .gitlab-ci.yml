@@ -1,0 +1,12 @@
+stages:
+  - validation
+  - build
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - docker stack deploy --compose-file docker-compose.yaml monitorStack
+  only:
+    - "lu_master"
+  when: manual
