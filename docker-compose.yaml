@@ -1,0 +1,22 @@
+---
+version: '3'
+services:
+  api:
+    image: sstarcher/sensu
+    command: api
+    links:
+      - redis
+  server:
+    image: sstarcher/sensu
+    command: server
+    links:
+      - redis
+      - api
+  uchiwa:
+    image: sstarcher/uchiwa
+    links:
+      - api:sensu
+    ports:
+      - '80:3000'
+  redis:
+    image: redis
