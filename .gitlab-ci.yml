@@ -7,5 +7,3 @@ deploy:
   stage: deploy
   script:
     - docker stack deploy --compose-file docker-compose.yaml monitorStack
-  only:
-    - master
