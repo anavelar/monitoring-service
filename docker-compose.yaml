@@ -1,22 +1,55 @@
----
 version: '3'
+
 services:
-  api:
-    image: sstarcher/sensu
-    command: api
-    links:
-      - redis
   server:
-    image: sstarcher/sensu
+    image: sstarcher/sensu:1.4.3
     command: server
-    links:
+    environment:
+      TRANSPORT_NAME: rabbitmq
+      RUNTIME_INSTALL: sensu-plugins/mailer@0a2af0cd4b8c5adb7931e7bd5dcce894afb8b48c
+    volumes:
+      - "./sensu/check.d:/etc/sensu/check.d"
+      - "./sensu/handlers:/etc/sensu/handlers"
+    depends_on:
+      - rabbitmq
       - redis
       - api
+    networks:
+      - default
+  api:
+    image: sstarcher/sensu:1.4.3
+    command: api
+      - redis
+    environment:
+      TRANSPORT_NAME: rabbitmq
+    ports:
+      - '4567:4567'  
+    depends_on:
+      - rabbitmq
+      - redis
+    networks:
+      - default
+  redis:
+    image: redis:3  
+    networks:
+      - default
+  rabbitmq:
+    image: rabbitmq:3.7.8
+    ports:
+     - "5672:5672" 
+    networks:
+     - default
   uchiwa:
-    image: sstarcher/uchiwa
-    links:
-      - api:sensu
+    image: sstarcher/uchiwa:0.25.2
+    environment:
+      SENSU_DC_NAME: speed
+      SENSU_HOSTNAME: api
+    depends_on:
+      - api
     ports:
       - '80:3000'
-  redis:
-    image: redis
+    networks:
+      - default
+
+networks:
+ default:

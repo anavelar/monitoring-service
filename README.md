@@ -11,5 +11,24 @@ Containerized services (WIP):
 - [ ] ElasticSearch;
 - [ ] Logstash;
 - [ ] Kibana;
-- [ ] RabbitMQ as a transport layer;
+- [x] RabbitMQ as a transport layer;
 - [ ] Riemann;
+
+###### Observações ao executar
+
+* **Não apagar a pasta sensu**: A pasta sensu está mapeada para o sensu-server e contém definições de handlers e outros. Apesar de ser criada automaticamente, os arquivos dentro dela ainda não são (por serem variáveis), então não vamos deletar essa pasta para não precisar refazer os arquivos.
+
+* **Server demora 2min a subir total temporariamente**. O server tá demorando 2 minutos pra subir, isso pela instalação em tempo de execução do plugin do mailer. Uma consequência disso é que os clientes demoram um pouco a aparecem do dashboard do Uchiwa depois que sobem porque o server ainda não tá de pé direito. A próxima issue é justamente isso, colocar essa instalação dentro do Dockerfile e fazer build. 
+
+---
+
+###### Pendentes para o ambiente de produção:
+
+* **Para notificações de queda por e-mail ativadas**: o arquivo *mailer.conf*, arquivo com as configurações do handler mailer que trata quedas, que fica dentro da pasta sensu, precisa ser preenchido com os valores definidos:
+  * Preencher o e-mail para receber os avisos de queda.
+  * Preencher usuário e senha SMTP certos.
+
+###### Pendentes opcionais
+
+Todos os serviços estão com user, senha, vhost etc padrões. Podemos mudar depois.
+

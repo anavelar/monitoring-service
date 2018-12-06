@@ -1,0 +1,14 @@
+{
+    "mailer" :  {
+        "admin_gui": "monitor-speed-01.speed.dcc.ufmg.br",
+        "mail_from": "noreply@speed.dcc.ufmg.br",
+        "mail_to": "e-mail-que-vai-receber-a-notificao@umemail.com",
+        "delivery_method": "smtp",
+        "smtp_address": "smtp.dcc.ufmg.br",
+        "smtp_port": "587",
+        "smtp_domain": "dcc.ufmg.br",
+        "smtp_enable_starttls_auto": "true",
+        "smtp_username" : "change-me",
+        "smtp_password" : "change-me"
+    }
+}
