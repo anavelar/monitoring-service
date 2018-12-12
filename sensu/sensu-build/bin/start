@@ -1,0 +1,89 @@
+#!/bin/bash
+set -e
+
+process_template(){
+  pushd $1 > /dev/null
+  for FILE in *.tmpl
+  do
+    echo "Processing $FILE file..."
+    envtpl -in $FILE > ${FILE%.*}
+  done
+  popd > /dev/null
+}
+
+if [[ "${VALIDATE_ONLY}" == "true" ]]; then
+  echo "Skipping install step because the VALIDATE_ONLY flag is set"
+else
+  /bin/install $RUNTIME_INSTALL
+fi
+
+SENSU_SERVICE=${SENSU_SERVICE-$1}
+
+case "$SENSU_SERVICE" in
+  api)
+    DEPENDENCIES="redis api transport"
+    DIRS="$CONFIG_DIR,$CHECK_DIR"
+    ;;&
+  client)
+    DEPENDENCIES="client transport"
+    DIRS="$CONFIG_DIR"
+    rm -rf ${CHECK_DIR}/*
+
+    if [[ "${TRANSPORT_NAME}" == "redis" ]]; then
+      DEPENDENCIES="redis $DEPENDENCIES"
+    fi
+    ;;&
+  server)
+    DEPENDENCIES="redis api transport"
+    DIRS="$CONFIG_DIR,$CHECK_DIR,$HANDLERS_DIR"
+    ;;&
+  api|server|client)
+    shopt -s nullglob #fixes null glob when no file exists
+
+    process_template $CONFIG_DIR
+    process_template $CHECK_DIR
+    process_template $HANDLERS_DIR
+
+    for INDEX in $DEPENDENCIES
+    do
+      envtpl -in /etc/sensu/templates/${INDEX}.json.tmpl > $CONFIG_DIR/${INDEX}.json
+    done
+
+    # Generate key/cert files if RABBITMQ_SSL_SUPPORT = true
+    if [ $RABBITMQ_SSL_SUPPORT == "true" ]; then
+      if [ -z "${RABBITMQ_SSL_CERT}" ] || [ -z "${RABBITMQ_SSL_KEY}" ]; then
+        echo 'RABBITMQ_SSL_SUPPORT = true but RABBITMQ_SSL_CERT or RABBITMQ_SSL_KEY is empty'
+        exit 1
+      fi
+
+      mkdir -p /etc/sensu/ssl
+      echo -e "${RABBITMQ_SSL_CERT}" > /etc/sensu/ssl/cert.pem
+      echo -e "${RABBITMQ_SSL_KEY}" > /etc/sensu/ssl/key.pem
+    fi
+
+    # For checks which need access to the host's /dev, /proc or /sys filesystem,
+    # adjust the checks to the directories mounted from the host
+    for dir in $(gem env gempath | sed -e 's/:/ /g'); do
+      if compgen -G "${dir}/*.rb" > /dev/null; then
+        sed -i -e "s|/dev|$HOST_DEV_DIR|g" -e "s|/proc|$HOST_PROC_DIR|g" -e "s|/sys|$HOST_SYS_DIR|g" ${dir}/*.rb
+      fi
+    done
+
+    find /etc/sensu -regex '.*\.ya?ml' | while read yamlFile; do
+      jsonFile=$(echo ${yamlFile} | sed -r -e 's/\.ya?ml/.json/');
+      echo "Converted ${yamlFile} to ${jsonFile}"
+      yaml2json ${yamlFile} > ${jsonFile}
+      rm ${yamlFile} > /dev/null
+    done
+
+    if [[ "${VALIDATE_ONLY}" == "true" ]]; then
+      OPTIONS="${OPTIONS} --print_config --validate_config"
+    fi
+
+    exec sensu-$SENSU_SERVICE -d $DIRS -e $EXTENSION_DIR -L $LOG_LEVEL $OPTIONS
+    ;;
+  *)
+    echo 'Specify either api/server/client'
+    exit 1
+    ;;
+esac
