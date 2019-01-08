@@ -1,9 +1,9 @@
 {
   "filters": {
-    "recorrencias-mailer": {
+    "noise-mailer": {
       "attributes": {
-        "client":{
-          "keepalives": "true"
+        "check":{
+          "name": "keepalive"
         },
         "occurrences": "eval: value == 1"
       }
