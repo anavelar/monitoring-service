@@ -9,6 +9,6 @@
         "smtp_domain": "dcc.ufmg.br",
         "smtp_enable_starttls_auto": "true",
         "smtp_username" : "ana.avelar",
-        "smtp_password" : "ae3c7f14!!"
+        "smtp_password" : "change-me"
     }
 }
