@@ -1,0 +1,12 @@
+{
+  "filters": {
+    "recorrencias-mailer": {
+      "attributes": {
+        "client":{
+          "keepalives": "true"
+        },
+        "occurrences": "eval: value == 1"
+      }
+    }
+  }
+}
