@@ -1,6 +1,6 @@
 {
   "filters": {
-    "noise-mailer": {
+    "noise-keepalive": {
       "attributes": {
         "check":{
           "name": "keepalive"
