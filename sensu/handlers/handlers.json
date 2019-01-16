@@ -2,7 +2,8 @@
     "handlers": {
         "mailer": {
             "type": "pipe",
-            "command": "/usr/local/bundle/bin/handler-mailer.rb"
+            "command": "/usr/local/bundle/bin/handler-mailer.rb",
+            "filter": "noise-keepalive"
         }
     }
 }

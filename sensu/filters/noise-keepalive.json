@@ -1,0 +1,12 @@
+{
+  "filters": {
+    "noise-keepalive": {
+      "attributes": {
+        "check":{
+          "name": "keepalive"
+        },
+        "occurrences": "eval: value == 1"
+      }
+    }
+  }
+}

@@ -27,6 +27,7 @@ Containerized services (WIP):
 * **Para notificações de queda por e-mail ativadas**: o arquivo *mailer.conf*, arquivo com as configurações do handler mailer que trata quedas, que fica dentro da pasta sensu, precisa ser preenchido com os valores definidos:
   * Preencher o e-mail para receber os avisos de queda.
   * Preencher usuário e senha SMTP certos.
+  * **Opcional**: Alterar o tempo para notificar: atualmente está 120 segundos após a queda. Esse tempo está em sensu/sensu-build/templates/client.json.tmpl, o número em frente a CLIENT\_KEEPALIVE\_CRITICAL. Como checa de 20 em 20 segundos, recomendado pelo menos 60 segundos para notificar.
 
 ###### Pendentes opcionais
 

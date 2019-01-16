@@ -8,8 +8,8 @@ services:
       TRANSPORT_NAME: rabbitmq
       RUNTIME_INSTALL: sensu-plugins/mailer@0a2af0cd4b8c5adb7931e7bd5dcce894afb8b48c
     volumes:
-      - "./sensu/check.d:/etc/sensu/check.d"
-      - "./sensu/handlers:/etc/sensu/handlers"
+      - "./sensu/handlers:/etc/sensu/conf.d/handlers"
+      - "./sensu/filters:/etc/sensu/conf.d/filters"
     depends_on:
       - rabbitmq
       - redis
@@ -36,9 +36,9 @@ services:
   rabbitmq:
     image: rabbitmq:3.7.8
     ports:
-     - "5672:5672" 
+      - "5672:5672" 
     networks:
-     - default
+      - default
   uchiwa:
     image: sstarcher/uchiwa:0.25.2
     environment:
@@ -52,4 +52,4 @@ services:
       - default
 
 networks:
- default:
+  default:

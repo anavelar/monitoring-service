@@ -2,7 +2,11 @@ version: '3'
 
 services:
   client:
-    image: sstarcher/sensu:1.4.3
+    build:
+      context: ./sensu-build
+      dockerfile: Dockerfile-client
+    #Image eh ignorado em modo swarm
+    image: client:mailer-v1.4.3
     command: client
     environment:
       CLIENT_NAME: client1
