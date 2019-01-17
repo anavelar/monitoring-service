@@ -5,5 +5,7 @@ stages:
 
 deploy:
   stage: deploy
+  before_script:
+    - sed -i -e "s/USER_SMTP/$SMTP_USER/" -e "s/PASSWD_SMTP/$SMTP_PASSWD/" sensu/handlers/mailer.json
   script:
     - docker stack deploy --compose-file docker-compose.yaml monitorStack
