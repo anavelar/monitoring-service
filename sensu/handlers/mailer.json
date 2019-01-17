@@ -2,7 +2,7 @@
     "mailer" :  {
         "admin_gui": "monitor-speed-01.speed.dcc.ufmg.br",
         "mail_from": "noreply@speed.dcc.ufmg.br",
-        "mail_to": "lsl@dcc.ufmg.br",
+        "mail_to": "guimalufb@gmail.com",
         "delivery_method": "smtp",
         "smtp_address": "smtp.dcc.ufmg.br",
         "smtp_port": "587",
