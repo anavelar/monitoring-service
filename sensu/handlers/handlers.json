@@ -1,9 +1,13 @@
 {
-    "handlers": {
-        "mailer": {
-            "type": "pipe",
-            "command": "/usr/local/bundle/bin/handler-mailer.rb",
-            "filter": "noise-keepalive"
-        }
+  "handlers": {
+    "default": {
+      "type": "pipe",
+      "command":"tee /dev/null"
+    },
+    "mailer": {
+      "type": "pipe",
+      "command": "/usr/local/bundle/bin/handler-mailer.rb",
+      "filter": "noise-keepalive"
     }
+  }
 }
