@@ -5,8 +5,8 @@ Containerized services (WIP):
 
 - [x] Sensu (server, client, api and uchiwa);
 - [x] Redis;
-- [ ] InfluxDB;
-- [ ] Grafana;
+- [x] InfluxDB;
+- [x] Grafana;
 - [ ] Collectd;
 - [ ] ElasticSearch;
 - [ ] Logstash;
