@@ -1,21 +1,27 @@
+---
 version: '3'
 
 services:
+#Sensu server:
   server:
     image: sstarcher/sensu:1.4.3
     command: server
     environment:
       TRANSPORT_NAME: rabbitmq
-      RUNTIME_INSTALL: sensu-plugins/mailer@0a2af0cd4b8c5adb7931e7bd5dcce894afb8b48c
+      RUNTIME_INSTALL: sensu-plugins/mailer@0a2af0cd4b8c5adb7931e7bd5dcce894afb8b48c sensu-plugins/influxdb@1.3.0
     volumes:
       - "./sensu/handlers:/etc/sensu/conf.d/handlers"
       - "./sensu/filters:/etc/sensu/conf.d/filters"
+      - "./sensu/mutator-influxdb-line-protocol.rb:/etc/sensu/extensions/mutator-influxdb-line-protocol.rb"
     depends_on:
       - rabbitmq
       - redis
       - api
     networks:
       - default
+      - influxnet
+
+#Sensu api
   api:
     image: sstarcher/sensu:1.4.3
     command: api
@@ -29,16 +35,22 @@ services:
       - redis
     networks:
       - default
+
+#Redis: Database for sensu
   redis:
     image: redis:3  
     networks:
       - default
+
+#Rabbitmq: Message queue service
   rabbitmq:
     image: rabbitmq:3.7.8
     ports:
       - "5672:5672" 
     networks:
       - default
+
+#Uchiwa: Sensu's dashboard
   uchiwa:
     image: sstarcher/uchiwa:0.25.2
     environment:
@@ -50,6 +62,42 @@ services:
       - '80:3000'
     networks:
       - default
+  
+#InfluxDb: database for collected metrics
+  influxdba:
+    image: influxdb:1.7.3
+    environment:
+      - 'FORCE_HOSTNAME=influxdba'
+      - 'INFLUXDB_DB=sensu'
+      - 'UDP_PORT=8089'
+      - 'INFLUXDB_USER=sensu'
+      - 'INFLUXDB_USER_PASSWORD=sensu'
+    volumes:
+      - "influxdb-storage:/var/lib/influxdb"
+      - "./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
+    networks:
+      influxnet:
+        aliases:
+          - influxdb
+    ports:
+      - '8086:8086'
+      - '2003:2003'
+      - '8089:8089'
+      - '8090:8090'
+
+#Grafana: Visualization tool for collected metrics
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - "grafana-storage:/var/lib/grafana"
+    ports:
+      - '3000:3000'
+    networks:
+      - influxnet
 
 networks:
   default:
+  influxnet:
+volumes:
+  grafana-storage:
+  influxdb-storage:
