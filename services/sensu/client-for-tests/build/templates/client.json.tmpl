@@ -15,9 +15,10 @@
     {{end}}
     "keepalive": {
       "thresholds": {
-         "critical": {{ default .CLIENT_KEEPALIVE_CRITICAL 120 }}
+         "warning": {{ default .CLIENT_KEEPALIVE_WARNING 60 }},
+         "critical": {{ default .CLIENT_KEEPALIVE_CRITICAL 90 }}
       },
-      "handler": {{ default "default" .CLIENT_KEEPALIVE_HANDLER | quote }}
+      "handlers": ["mailer-down", "mailer-up"]
     }
   }
 }
