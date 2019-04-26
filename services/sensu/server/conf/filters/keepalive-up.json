@@ -1,0 +1,13 @@
+{
+  "filters": {
+    "keepalive-up": {
+      "attributes": {
+        "action": "resolve",
+        "check":{
+          "name": "keepalive",
+          "status": 0
+        }
+      }
+    }
+  }
+}

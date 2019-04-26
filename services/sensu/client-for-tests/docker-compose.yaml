@@ -1,19 +1,16 @@
+---
 version: '3'
 
 services:
   client:
-    build:
-      context: ./sensu-build
-      dockerfile: Dockerfile-client
-    #Image eh ignorado em modo swarm
-    image: client:mailer-v1.4.3
+    build: ./build
+    image: sensu-client-with-notif:1.4.3
     command: client
     environment:
-      CLIENT_NAME: client1
+      CLIENT_NAME: test-client-1
+      TRANSPORT_NAME: rabbitmq
       CLIENT_SUBSCRIPTIONS: all
       CLIENT_ADDRESS: 127.0.0.1
-      TRANSPORT_NAME: rabbitmq
-      CLIENT_KEEPALIVE_HANDLER: mailer
       CLIENT_DEREGISTER: 'false'
       #para acessar info do host e nao do container:
       HOST_DEV_DIR: /host_dev

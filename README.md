@@ -1,12 +1,11 @@
-A distributed Monitoring Service build as a Docker Swarm service for Hadoop and
-Spark monitoring as well as general monitoring.
+A distributed Monitoring Service build as a Docker Swarm service for Hadoop and Spark monitoring as well as general monitoring.
 
 Containerized services (WIP):
 
 - [x] Sensu (server, client, api and uchiwa);
 - [x] Redis;
-- [x] InfluxDB;
-- [x] Grafana;
+- [ ] InfluxDB;
+- [ ] Grafana;
 - [ ] Collectd;
 - [ ] ElasticSearch;
 - [ ] Logstash;
@@ -14,22 +13,24 @@ Containerized services (WIP):
 - [x] RabbitMQ as a transport layer;
 - [ ] Riemann;
 
+---
+
 ###### Observações ao executar
 
-* **Não apagar a pasta sensu**: A pasta sensu está mapeada para o sensu-server e contém definições de handlers e outros. Apesar de ser criada automaticamente, os arquivos dentro dela ainda não são (por serem variáveis), então não vamos deletar essa pasta para não precisar refazer os arquivos.
-
-* **Server demora 2min a subir total temporariamente**. O server tá demorando 2 minutos pra subir, isso pela instalação em tempo de execução do plugin do mailer. Uma consequência disso é que os clientes demoram um pouco a aparecem do dashboard do Uchiwa depois que sobem porque o server ainda não tá de pé direito. A próxima issue é justamente isso, colocar essa instalação dentro do Dockerfile e fazer build. 
+* **Sensu-Server demora 2min a subir por completo -> Clients demoram esse tempo para aparecerem no dashboard sensu**. O servidor sensu está demorando 2 minutos pra subir, isso pela instalação em tempo de execução do plugin mailer. Uma consequência disso é que os clientes demoram um pouco a aparecem no dashboard Uchiwa depois de ativos (porque o servidor ainda não está up).
 
 ---
 
-###### Pendentes para o ambiente de produção:
+###### Configurações necessárias no ambiente (environment variables, etc)
 
-* **Para notificações de queda por e-mail ativadas**: o arquivo *mailer.conf*, arquivo com as configurações do handler mailer que trata quedas, que fica dentro da pasta sensu, precisa ser preenchido com os valores definidos:
-  * Preencher o e-mail para receber os avisos de queda.
-  * Preencher usuário e senha SMTP certos.
-  * **Opcional**: Alterar o tempo para notificar: atualmente está 120 segundos após a queda. Esse tempo está em sensu/sensu-build/templates/client.json.tmpl, o número em frente a CLIENT\_KEEPALIVE\_CRITICAL. Como checa de 20 em 20 segundos, recomendado pelo menos 60 segundos para notificar.
+*  Para notificações de queda e de volta por email: Preencher valores personalizados (Como por exemplo o e-mail a receber as notificações) no arquivo _services/sensu/server/conf/handlers/mailer.json_
+   
+*  Environment Variables
+   * SMTP_USER
+   * SMTP_PASSWD
 
-###### Pendentes opcionais
+---
 
-Todos os serviços estão com user, senha, vhost etc padrões. Podemos mudar depois.
+###### Configurações opcionais
 
+* Todos os serviços estão com user, senha, vhost etc padrões. Par o InfluxDB todas as variáveis são 'sensu'. Podemos mudar depois.
