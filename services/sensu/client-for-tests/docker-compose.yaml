@@ -3,8 +3,7 @@ version: '3'
 
 services:
   client:
-    build: ./build
-    image: sensu-client-with-notif:1.4.3
+    image: sstarcher/sensu:1.4.3
     command: client
     environment:
       CLIENT_NAME: test-client-1
@@ -12,6 +11,7 @@ services:
       CLIENT_SUBSCRIPTIONS: all
       CLIENT_ADDRESS: 127.0.0.1
       CLIENT_DEREGISTER: 'false'
+      CLIENT_KEEPALIVE_HANDLER: 'mailer'
       #para acessar info do host e nao do container:
       HOST_DEV_DIR: /host_dev
       HOST_PROC_DIR: /host_proc
