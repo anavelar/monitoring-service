@@ -17,6 +17,17 @@
     "mailer": {
       "type": "set",
       "handlers": ["mailer-down", "mailer-up"]
+    },
+    "none": {
+      "type": "pipe",
+      "command":"tee /dev/null"
+    },
+    "metrics": {
+      "type": "set",
+      "handlers": [
+        "none",
+        "influxdb"
+      ]
     }
   }
 }

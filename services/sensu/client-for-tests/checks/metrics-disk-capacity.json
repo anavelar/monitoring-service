@@ -1,0 +1,13 @@
+{
+    "checks": {
+        "metrics-disk-capacity": {
+            "command": "/usr/local/bundle/bin/metrics-disk-capacity.rb",
+            "interval": 5,
+            "standalone": true,
+            "type": "metric",
+            "handlers": [ 
+              "metrics"
+            ]
+        }
+    }
+}

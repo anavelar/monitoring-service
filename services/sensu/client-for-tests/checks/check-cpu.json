@@ -1,0 +1,10 @@
+{
+    "checks": {
+        "check-cpu": {
+            "command": "/usr/local/bundle/bin/check-cpu.rb -c 90",
+            "interval": 5,
+            "standalone": true,
+            "handler": "default"
+        }
+    }
+}

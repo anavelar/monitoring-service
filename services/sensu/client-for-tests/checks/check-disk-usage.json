@@ -1,0 +1,10 @@
+{
+    "checks": {
+        "check-disk-usage": {
+            "command": "/usr/local/bundle/bin/check-disk-usage.rb",
+            "interval": 5,
+            "standalone": true,
+            "handler": "default"
+        }
+    }
+}

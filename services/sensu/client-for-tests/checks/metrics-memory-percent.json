@@ -1,0 +1,13 @@
+{
+    "checks": {
+        "metrics-memory-percent": {
+            "command": "/usr/local/bundle/bin/metrics-memory-percent.rb",
+            "interval": 5,
+            "standalone": true,
+            "type": "metric",
+            "handlers": [ 
+              "metrics"
+            ]
+        }
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "checks": {
+        "check-memory-percent": {
+            "command": "/usr/local/bundle/bin/check-memory-percent.rb -c 95",
+            "interval": 5,
+            "standalone": true,
+            "handler": "default"
+        }
+    }
+}

@@ -1,0 +1,10 @@
+{
+  "extensions": {
+    "influxdb": {
+      "gem": "sensu-extensions-influxdb2"
+    },
+    "history": {
+      "gem": "sensu-extensions-history"
+    }
+  }
+}
