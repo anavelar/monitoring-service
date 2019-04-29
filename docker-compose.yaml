@@ -5,14 +5,14 @@ services:
 
 #Sensu server:
   server:
-    build: ./services/sensu/server
-    image: sensu-server-influxdb:1.4.3
+    build: ./sensu
+    image: sensu:1.4.3
     command: server
     environment:
       TRANSPORT_NAME: rabbitmq
-      RUNTIME_INSTALL: 'mailer'
+      RUNTIME_INSTALL: mailer
     volumes:
-      - ./services/sensu/server/conf:/etc/sensu/conf.d
+      - ./sensu/conf.d:/etc/sensu/conf.d
     depends_on:
       - rabbitmq
       - redis
@@ -65,12 +65,12 @@ services:
   influxdb:
     image: influxdb:1.7.5
     environment:
-      INFLUXDB_DB: 'sensu'
-      INFLUXDB_ADMIN_ENABLED: 'true'
+      INFLUXDB_DB: sensu
       INFLUXDB_ADMIN_USER: sensu
       INFLUXDB_ADMIN_PASSWORD: sensu
+      INFLUXDB_ADMIN_ENABLED: 'true'
     volumes:
-      - ./services/influxdb/conf/influxdb.conf:/etc/influxdb/influxdb.conf
+      - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf
       - /srv/monitoring-service/influxdb-storage:/var/lib/influxdb
     ports:
       - '8086:8086'
