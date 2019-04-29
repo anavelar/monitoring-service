@@ -23,7 +23,7 @@ Containerized services (WIP):
 
 * Para notificações de queda e volta por email:
     Preencher valores no arquivo _services/sensu/server/conf/handlers/mailer.json_.
-  
+
 * Environment Variables:
   Para o InfluxDB:
   * INFLUXDB_ADMIN_USER
@@ -33,4 +33,4 @@ Containerized services (WIP):
 
 ###### Configurações opcionais
 
-* Todos os serviços estão com user, senha, vhost etc padrões. Para o InfluxDB, todas as variáveis são 'sensu'. Podemos mudar depois.
+* Todos os serviços estão com user, senha, vhost etc padrões. Para o InfluxDB, todas as variáveis são 'sensu'.

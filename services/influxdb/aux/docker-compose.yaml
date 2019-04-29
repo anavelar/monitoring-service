@@ -10,10 +10,10 @@ services:
   influxdb:
     image: influxdb:1.7.5
     volumes:
-      - "./influxdb.conf:/etc/influxdb/influxdb.conf"
-      - "/srv/monitoring-service/influxdb_alone_data:/var/lib/influxdb"  
+      - ./influxdb.conf:/etc/influxdb/influxdb.conf
+      - /srv/monitoring-service/influxdb_alone_data:/var/lib/influxdb
     ports:
-      - "8086:8086"
+      - '8086:8086'
     networks:
       - netinfluxdb
 

@@ -1,4 +1,4 @@
---- 
+---
 version: '3'
 
 services:
@@ -12,7 +12,7 @@ services:
       TRANSPORT_NAME: rabbitmq
       RUNTIME_INSTALL: 'mailer'
     volumes:
-      - "./services/sensu/server/conf:/etc/sensu/conf.d"
+      - ./services/sensu/server/conf:/etc/sensu/conf.d
     depends_on:
       - rabbitmq
       - redis
@@ -24,11 +24,10 @@ services:
   api:
     image: sstarcher/sensu:1.4.3
     command: api
-      - redis
     environment:
       TRANSPORT_NAME: rabbitmq
     ports:
-      - '4567:4567'  
+      - '4567:4567'
     depends_on:
       - rabbitmq
       - redis
@@ -37,7 +36,7 @@ services:
 
 #Redis: Database for sensu
   redis:
-    image: redis:3  
+    image: redis:3
     networks:
       - default
 
@@ -45,7 +44,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.7.8
     ports:
-      - "5672:5672" 
+      - '5672:5672'
     networks:
       - default
 
@@ -68,13 +67,13 @@ services:
     environment:
       INFLUXDB_DB: 'sensu'
       INFLUXDB_ADMIN_ENABLED: 'true'
-      INFLUXDB_ADMIN_USER:
-      INFLUXDB_ADMIN_PASSWORD:
+      INFLUXDB_ADMIN_USER: sensu
+      INFLUXDB_ADMIN_PASSWORD: sensu
     volumes:
-      - "./services/influxdb/conf/influxdb.conf:/etc/influxdb/influxdb.conf"
-      - "/srv/monitoring-service/influxdb-storage:/var/lib/influxdb"  
+      - ./services/influxdb/conf/influxdb.conf:/etc/influxdb/influxdb.conf
+      - /srv/monitoring-service/influxdb-storage:/var/lib/influxdb
     ports:
-      - "8086:8086"
+      - '8086:8086'
     networks:
       - default
 

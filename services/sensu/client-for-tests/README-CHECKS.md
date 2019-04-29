@@ -6,13 +6,13 @@ Na monitoração os clients não são em container e vão para cada máquina pel
 Ao copiar checks dos clients direto, trocar no comando executável esta parte do caminho do script
 
 ```sh
-/opt/sensu/embedded/bin/ 
+/opt/sensu/embedded/bin/
 ```
 
 substituir por
 
 ```sh
-/usr/local/bundle/bin/ 
+/usr/local/bundle/bin/
 ```
 
 para o client de testes aqui, os executáveis do sensu ficam em lugares diferentes nos dois.
