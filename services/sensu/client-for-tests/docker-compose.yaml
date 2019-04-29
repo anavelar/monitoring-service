@@ -3,7 +3,8 @@ version: '3'
 
 services:
   client:
-    image: sstarcher/sensu:1.4.3
+    build: .
+    image: sensu-client-plugins:1.4.3
     command: client
     environment:
       CLIENT_NAME: test-client-1
@@ -17,6 +18,7 @@ services:
       HOST_PROC_DIR: /host_proc
       HOST_SYS_DIR: /host_sys
     volumes:
+     - "./checks:/etc/sensu/conf.d/checks"
      #Para que o container pegue info de monitoracao do host
      #e nao dele mesmo
      - "/dev:/host_dev/:ro"

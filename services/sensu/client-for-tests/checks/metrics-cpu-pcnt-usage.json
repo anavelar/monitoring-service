@@ -1,0 +1,13 @@
+{
+    "checks": {
+        "metrics-cpu-pcnt-usage": {
+            "command": "/usr/local/bundle/bin/metrics-cpu-pcnt-usage.rb",
+            "interval": 5,
+            "standalone": true,
+            "type": "metric",
+            "handlers": [
+              "metrics"
+            ]
+        }
+    }
+}

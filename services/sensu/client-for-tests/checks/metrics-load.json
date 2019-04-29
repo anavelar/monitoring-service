@@ -1,0 +1,13 @@
+{
+    "checks": {
+        "metrics-load": {
+            "command": "/usr/local/bundle/bin/metrics-load.rb",
+            "interval": 5,
+            "standalone": true,
+            "type": "metric",
+            "handlers": [ 
+              "metrics"
+            ]
+        }
+    }
+}

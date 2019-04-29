@@ -1,0 +1,10 @@
+{
+    "checks": {
+        "check-swap-percent": {
+            "command": "/usr/local/bundle/bin/check-swap-percent.rb",
+            "interval": 5,
+            "standalone": true,
+            "handler": "default"
+        }
+    }
+}
