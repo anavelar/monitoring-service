@@ -9,7 +9,7 @@ deploy:
   - sed -i
        -e "s/SMTP_USER/${SMTP_USER}/"
        -e "s/SMTP_PASSWD/${SMTP_PASSWD}/"
-       services/sensu/server/conf/handlers/mailer.json
+       sensu/conf.d/handlers/mailer.json
   - docker stack deploy --compose-file docker-compose.yaml monitorStack
   only:
     - master
