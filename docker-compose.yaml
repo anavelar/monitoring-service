@@ -10,7 +10,6 @@ services:
     command: server
     environment:
       TRANSPORT_NAME: rabbitmq
-      RUNTIME_INSTALL: mailer
     volumes:
       - ./sensu/conf.d:/etc/sensu/conf.d
     depends_on:
