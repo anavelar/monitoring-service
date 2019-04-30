@@ -1,0 +1,22 @@
+{
+  "filters": {
+    "keepalive-up": {
+      "attributes": {
+        "action": "resolve",
+        "check":{
+          "name": "keepalive",
+          "status": 0
+        }
+      },
+      "keepalive-down": {
+        "attributes": {
+          "check":{
+            "name": "keepalive",
+            "status": 2
+          },
+          "occurrences": "eval: value == 1"
+        }
+      }
+    }
+  }
+}

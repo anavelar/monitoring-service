@@ -34,3 +34,5 @@ Containerized services (WIP):
 ###### Configurações opcionais
 
 * Todos os serviços estão com user, senha, vhost etc padrões. Para o InfluxDB, todas as variáveis são 'sensu'.
+
+    asdas
