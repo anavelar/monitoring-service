@@ -13,10 +13,6 @@ Containerized services (WIP):
 - [x] RabbitMQ as a transport layer;
 - [ ] Riemann;
 
-###### Observações ao executar
-
-* **Sensu-Server demora 2min a subir por completo -> Clients demoram esse tempo para aparecerem no dashboard sensu**. O servidor sensu está demorando 2 minutos pra subir, isso pela instalação em tempo de execução do plugin mailer. Uma consequência disso é que os clientes demoram um pouco a aparecem no dashboard Uchiwa depois de ativos (porque o servidor ainda não está up).
-
 ---
 
 ###### Configurações necessárias no ambiente (environment variables, etc):
@@ -24,13 +20,10 @@ Containerized services (WIP):
 * Para notificações de queda e volta por email:
     Preencher valores no arquivo _services/sensu/server/conf/handlers/mailer.json_.
 
-* Environment Variables:
-  Para o InfluxDB:
-  * INFLUXDB_ADMIN_USER
-  * INFLUXDB_ADMIN_PASSWORD
-
 ---
 
 ###### Configurações opcionais
 
-* Todos os serviços estão com user, senha, vhost etc padrões. Para o InfluxDB, todas as variáveis são 'sensu'.
+* Todos os serviços estão com user, senha, vhost etc padrões. O que não é padrão está nos arquivos e environment variables escritos aqui.
+
+* Para o Grafana não é necessário autenticação. Caso seja preciso reverter isso, é só apagar as environment variables *GF\_AUTH\_ANONYMOUS\_<...>* do docker-compose com o serviço grafana, o que fará o serviço ter autenticação com login *admin* e senha *admin*.
