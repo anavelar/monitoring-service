@@ -76,8 +76,28 @@ services:
     networks:
       - default
 
+# Grafana: Data Visualization for collected metrics
+  grafana:
+    image: grafana/grafana:6.1.3
+    environment:
+      HOSTNAME: grafana
+      GF_ANALYTICS_REPORTING_ENABLE: 'false'
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+    user: "0"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning 
+      - grafana-storage:/var/lib/grafana  
+    depends_on:
+      - influxdb
+    ports:
+      - '3000:3000'
+    networks:
+      - default
+
+
 networks:
   default:
 
 volumes:
   influxdb-storage:
+  grafana-storage:

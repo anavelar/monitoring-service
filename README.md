@@ -5,7 +5,7 @@ Containerized services (WIP):
 - [x] Sensu (server, client, api and uchiwa);
 - [x] Redis;
 - [x] InfluxDB;
-- [ ] Grafana;
+- [x] Grafana;
 - [ ] Collectd;
 - [ ] ElasticSearch;
 - [ ] Logstash;
@@ -34,5 +34,3 @@ Containerized services (WIP):
 ###### Configurações opcionais
 
 * Todos os serviços estão com user, senha, vhost etc padrões. Para o InfluxDB, todas as variáveis são 'sensu'.
-
-    asdas
