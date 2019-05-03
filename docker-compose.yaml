@@ -82,7 +82,8 @@ services:
     environment:
       HOSTNAME: grafana
       GF_ANALYTICS_REPORTING_ENABLE: 'false'
-      GF_USERS_ALLOW_SIGN_UP: 'false'
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
     user: "0"
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning 
@@ -93,7 +94,6 @@ services:
       - '3000:3000'
     networks:
       - default
-
 
 networks:
   default:
