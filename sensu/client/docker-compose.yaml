@@ -32,4 +32,4 @@ services:
 networks:
   default:
     external:
-      name: monitoringservice_default
+      name: monitoring-service_default
