@@ -70,7 +70,7 @@ services:
       INFLUXDB_ADMIN_ENABLED: 'true'
     volumes:
       - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf
-      - /srv/monitoring-service/influxdb-storage:/var/lib/influxdb
+      - influxdb-storage:/var/lib/influxdb
     ports:
       - '8086:8086'
     networks:
@@ -78,3 +78,6 @@ services:
 
 networks:
   default:
+
+volumes:
+  influxdb-storage:

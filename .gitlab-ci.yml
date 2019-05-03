@@ -6,6 +6,7 @@ stages:
 deploy:
   stage: deploy
   script:
+  - docker image build -t sensu:1.4.3 ./sensu
   - sed -i
        -e "s/SMTP_USER/${SMTP_USER}/"
        -e "s/SMTP_PASSWD/${SMTP_PASSWD}/"
