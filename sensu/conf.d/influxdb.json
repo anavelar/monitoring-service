@@ -7,8 +7,7 @@
     "password": "sensu",
     "use_ssl": false,
     "templates": [
-      {".*\\..*\\..*\\..*": "host.measurement.device.field"},
-      {".*\\..*\\..*": "host.measurement.field"}
+      {".*\\..*": "host.measurement*"}
     ]
   }
 }
