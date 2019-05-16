@@ -70,7 +70,7 @@ services:
       INFLUXDB_ADMIN_ENABLED: 'true'
     volumes:
       - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf
-      - influxdb-storage:/var/lib/influxdb
+      - /srv/influxdb:/var/lib/influxdb
     ports:
       - '8086:8086'
     networks:
@@ -84,10 +84,11 @@ services:
       GF_ANALYTICS_REPORTING_ENABLE: 'false'
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
       GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_SIGNOUT_MENU: 'true'
     user: "0"
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning 
-      - grafana-storage:/var/lib/grafana  
+      - /srv/grafana:/var/lib/grafana  
     depends_on:
       - influxdb
     ports:
@@ -97,7 +98,3 @@ services:
 
 networks:
   default:
-
-volumes:
-  influxdb-storage:
-  grafana-storage:
