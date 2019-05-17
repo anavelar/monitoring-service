@@ -2,30 +2,137 @@
 version: '3'
 
 services:
-  client:
+
+  client-ceph-mon-speed:
     build: .
     image: sensu-plugins:1.4.3
     command: client
+    hostname: ceph-mon-08 
     environment:
-      CLIENT_NAME: test-client-1
+      CLIENT_NAME: ceph-mon-08.speed.dcc.ufmg.br
       TRANSPORT_NAME: rabbitmq
       CLIENT_SUBSCRIPTIONS: all
-      CLIENT_ADDRESS: 127.0.0.1
+      CLIENT_ADDRESS: 192.168.100.1
       CLIENT_DEREGISTER: 'false'
       CLIENT_KEEPALIVE_HANDLER: 'mailer'
-      #para acessar info do host e nao do container:
-      HOST_DEV_DIR: /host_dev
-      HOST_PROC_DIR: /host_proc
-      HOST_SYS_DIR: /host_sys
     volumes:
      - ./check.d:/etc/sensu/conf.d/checks
-     #Para que o container pegue info de monitoracao do host
-     #e nao dele mesmo
-     - /dev:/host_dev/:ro
-     - /proc:/host_proc/:ro
-     - /sys:/host_sys/:ro
     ports:
-      - '3030:3030'
+      - '3030'
+    networks:
+      - default
+
+  client-ceph-mon-local:
+    build: .
+    image: sensu-plugins:1.4.3
+    command: client
+    hostname: ceph-mon-09
+    environment:
+      CLIENT_NAME: ceph-mon-09.local
+      TRANSPORT_NAME: rabbitmq
+      CLIENT_SUBSCRIPTIONS: all
+      CLIENT_ADDRESS: 192.168.100.2
+      CLIENT_DEREGISTER: 'false'
+      CLIENT_KEEPALIVE_HANDLER: 'mailer'
+    volumes:
+     - ./check.d:/etc/sensu/conf.d/checks
+    ports:
+      - '3030'
+    networks:
+      - default
+
+  client-ceph-mon-pdu:
+    build: .
+    image: sensu-plugins:1.4.3
+    command: client
+    hostname: ceph-mon-pdu-09 
+    environment:
+      CLIENT_NAME: ceph-mon-pdu-09.local
+      TRANSPORT_NAME: rabbitmq
+      CLIENT_SUBSCRIPTIONS: all
+      CLIENT_ADDRESS: 192.168.100.3
+      CLIENT_DEREGISTER: 'false'
+      CLIENT_KEEPALIVE_HANDLER: 'mailer'
+    volumes:
+     - ./check.d:/etc/sensu/conf.d/checks
+    ports:
+      - '3030'
+    networks:
+      - default
+
+  client-ceph-osd-speed:
+    build: .
+    image: sensu-plugins:1.4.3
+    command: client
+    hostname: ceph-osd-08
+    environment:
+      CLIENT_NAME: ceph-osd-08.speed.dcc.ufmg.br
+      TRANSPORT_NAME: rabbitmq
+      CLIENT_SUBSCRIPTIONS: all
+      CLIENT_ADDRESS: 192.168.100.4
+      CLIENT_DEREGISTER: 'false'
+      CLIENT_KEEPALIVE_HANDLER: 'mailer'
+    volumes:
+     - ./check.d:/etc/sensu/conf.d/checks
+    ports:
+      - '3030'
+    networks:
+      - default
+
+  client-ceph-osd-local:
+    build: .
+    image: sensu-plugins:1.4.3
+    command: client
+    hostname: ceph-osd-09
+    environment:
+      CLIENT_NAME: ceph-osd-09.local
+      TRANSPORT_NAME: rabbitmq
+      CLIENT_SUBSCRIPTIONS: all
+      CLIENT_ADDRESS: 192.168.100.5
+      CLIENT_DEREGISTER: 'false'
+      CLIENT_KEEPALIVE_HANDLER: 'mailer'
+    volumes:
+     - ./check.d:/etc/sensu/conf.d/checks
+    ports:
+      - '3030'
+    networks:
+      - default
+
+  client-type-proj:
+    build: .
+    image: sensu-plugins:1.4.3
+    command: client
+    hostname: compute-speed-09
+    environment:
+      CLIENT_NAME: compute-speed-09.local
+      TRANSPORT_NAME: rabbitmq
+      CLIENT_SUBSCRIPTIONS: all
+      CLIENT_ADDRESS: 192.168.100.6
+      CLIENT_DEREGISTER: 'false'
+      CLIENT_KEEPALIVE_HANDLER: 'mailer'
+    volumes:
+     - ./check.d:/etc/sensu/conf.d/checks
+    ports:
+      - '3030'
+    networks:
+      - default
+
+  client-monitor:
+    build: .
+    image: sensu-plugins:1.4.3
+    command: client
+    hostname: monitor-speed-09 
+    environment:
+      CLIENT_NAME: monitor-speed-09.speed.dcc.ufmg.br
+      TRANSPORT_NAME: rabbitmq
+      CLIENT_SUBSCRIPTIONS: all
+      CLIENT_ADDRESS: 192.168.100.7
+      CLIENT_DEREGISTER: 'false'
+      CLIENT_KEEPALIVE_HANDLER: 'mailer'
+    volumes:
+     - ./check.d:/etc/sensu/conf.d/checks
+    ports:
+      - '3030'
     networks:
       - default
 
