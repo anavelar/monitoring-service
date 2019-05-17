@@ -1,0 +1,27 @@
+---
+version: '3'
+
+services:
+  client-single-companion:
+    build: .
+    image: sensu-plugins:1.4.3
+    command: client
+    hostname: compute-pro-08
+    environment:
+      CLIENT_NAME: compute-pro-08.local
+      TRANSPORT_NAME: rabbitmq
+      CLIENT_SUBSCRIPTIONS: all
+      CLIENT_ADDRESS: 192.168.203.246
+      CLIENT_DEREGISTER: 'false'
+      CLIENT_KEEPALIVE_HANDLER: 'mailer'
+    volumes:
+     - ./check.d:/etc/sensu/conf.d/checks
+    ports:
+      - '3030'
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: monitoring-service_default
