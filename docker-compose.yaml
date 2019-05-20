@@ -70,7 +70,7 @@ services:
       INFLUXDB_ADMIN_ENABLED: 'true'
     volumes:
       - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf
-      - /srv/influxdb:/var/lib/influxdb
+      - influxdb-storage:/var/lib/influxdb
     ports:
       - '8086:8086'
     networks:
@@ -88,7 +88,7 @@ services:
     user: "0"
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning 
-      - /srv/grafana:/var/lib/grafana  
+      - grafana-storage:/var/lib/grafana  
     depends_on:
       - influxdb
     ports:
@@ -98,3 +98,7 @@ services:
 
 networks:
   default:
+
+volumes:
+  influxdb-storage:
+  grafana-storage:
