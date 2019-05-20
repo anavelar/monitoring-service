@@ -1,0 +1,13 @@
+{
+    "checks": {
+        "metrics-interface": {
+            "command": "/usr/local/bundle/bin/metrics-interface.rb -i \"br(-tun|-int|-ex|102),en.*,bond.*\"",
+            "interval": 5,
+            "standalone": true,
+            "type": "metric",
+            "handlers": [
+              "metrics"
+            ]
+        }
+    }
+}
