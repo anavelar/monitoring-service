@@ -1,7 +1,7 @@
 {
     "checks": {
-        "metrics-disk": {
-            "command": "/usr/local/bundle/bin/metrics-disk.rb",
+        "metrics-disk-usage": {
+            "command": "/usr/local/bundle/bin/metrics-disk-usage.rb",
             "interval": 5,
             "standalone": true,
             "type": "metric",

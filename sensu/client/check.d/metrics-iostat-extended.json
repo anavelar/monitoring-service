@@ -1,7 +1,7 @@
 {
     "checks": {
-        "metrics-disk-capacity": {
-            "command": "/usr/local/bundle/bin/metrics-disk-capacity.rb",
+        "metrics-iostat-extended": {
+            "command": "/usr/local/bundle/bin/metrics-iostat-extended.rb",
             "interval": 5,
             "standalone": true,
             "type": "metric",

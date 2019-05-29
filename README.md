@@ -13,6 +13,17 @@ Containerized services (WIP):
 - [x] RabbitMQ as a transport layer;
 - [ ] Riemann;
 
+##### Dashboards
+
+Os dashboards são gerados automaticamente. Para modificar um dashboard, clique em salvar e substitua o json
+desse dashboard na pasta
+
+```
+grafana/provisioning/dashboards
+```
+
+pelo novo conteúdo json que aparece ao clicar em salvar.
+
 ---
 
 ###### Configurações necessárias no ambiente (environment variables, etc):
@@ -25,5 +36,3 @@ Containerized services (WIP):
 ###### Configurações opcionais
 
 * Todos os serviços estão com user, senha, vhost etc padrões. O que não é padrão está nos arquivos e environment variables escritos aqui.
-
-* Para o Grafana não é necessário autenticação. Caso seja preciso reverter isso, é só apagar as environment variables *GF\_AUTH\_ANONYMOUS\_<...>* do docker-compose com o serviço grafana, o que fará o serviço ter autenticação com login *admin* e senha *admin*.
