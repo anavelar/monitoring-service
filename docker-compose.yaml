@@ -62,7 +62,7 @@ services:
 
 #InfluxDB: database for collected metrics
   influxdb:
-    image: influxdb:1.7.5
+    image: influxdb:1.7.6
     environment:
       INFLUXDB_DB: sensu
       INFLUXDB_ADMIN_USER: sensu
