@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1559319799412,
+  "iteration": 1559512007491,
   "links": [],
   "panels": [
     {
@@ -3130,9 +3130,9 @@
         "allValue": null,
         "current": {
           "tags": [],
-          "text": "monitor-speed-01",
+          "text": "All",
           "value": [
-            "monitor-speed-01"
+            "$__all"
           ]
         },
         "datasource": "metrics",
@@ -3157,8 +3157,8 @@
     ]
   },
   "time": {
-    "from": "2019-05-30T12:35:11.731Z",
-    "to": "2019-05-30T17:44:54.971Z"
+    "from": "now-6h",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -3188,5 +3188,5 @@
   "timezone": "",
   "title": "Metrics Overview",
   "uid": "uLkGfciWz",
-  "version": 3
+  "version": 6
 }
