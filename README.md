@@ -34,17 +34,49 @@ Para definir um tempo de expiração:
 (No exemplo, está sendo definido como 3 semanas. Para escolher outro tempo, mudar o número 3 pelo desejado e
 w para week, d para day, etc - notações conforme padrões InfluxQL na documentação online do InfluxDB 1.7.)
 
+* Lista os containers:
+
 ```
-$ docker exec -it influxdbcontainer bash
+$ docker ps
+```
 
+* A partir dos containers listados, copia a CONTAINER ID do container influxdb (o que tem a imagem _influxdb:1.7.6_
+na coluna ao lado da ID).
+
+* Entra no conatiner InfluxDB:
+Onde se substitui <CONTAINER ID> pelo número copiado do primeiro passo, retirando os <> e deixando só a ID:
+
+```
+$ docker exec -it <CONTAINER ID> bash
+```
+
+* Acessa o InfluxDB de dentro do container:
+
+```
 $ influx
+```
 
+* Altera o tempo de expiração dos dados:
+
+```
 $ CREATE RETENTION POLICY sensurp ON sensu DURATION 3w REPLICATION 1 SHARD DURATION 1d DEFAULT
+```
 
+* Remove o tempo antigo (opciona sugerido):
+
+```
 $ DROP RETENTION POLICY autogen ON sensu
+```
 
+* Sai do InfluxDB:
+
+```
 $ exit
+```
 
+* Sai do container InfluxDB:
+
+```
 $ exit
 ```
 
