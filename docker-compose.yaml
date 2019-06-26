@@ -3,7 +3,7 @@ version: '3'
 
 services:
 
-#Sensu server:
+# Sensu Server:
   server:
     build: ./sensu
     image: sensu:1.4.3
@@ -17,9 +17,9 @@ services:
       - redis
       - api
     networks:
-      - default
+      - metricsnet
 
-#Sensu api
+# Sensu API
   api:
     image: sstarcher/sensu:1.4.3
     command: api
@@ -31,23 +31,23 @@ services:
       - rabbitmq
       - redis
     networks:
-      - default
+      - metricsnet
 
-#Redis: Database for sensu
+# Redis: Sensu's Internal Database
   redis:
     image: redis:3
     networks:
-      - default
+      - metricsnet
 
-#Rabbitmq: Message queue service
+# RabbitMQ: Sensu's Transport Service
   rabbitmq:
     image: rabbitmq:3.7.8
     ports:
       - '5672:5672'
     networks:
-      - default
+      - metricsnet
 
-#Uchiwa: Sensu's dashboard
+# Uchiwa: Sensu's Dashboard
   uchiwa:
     image: sstarcher/uchiwa:0.25.2
     environment:
@@ -58,9 +58,9 @@ services:
     ports:
       - '80:3000'
     networks:
-      - default
+      - metricsnet
 
-#InfluxDB: database for collected metrics
+# InfluxDB: Database for collected metrics
   influxdb:
     image: influxdb:1.7.6
     environment:
@@ -74,7 +74,7 @@ services:
     ports:
       - '8086:8086'
     networks:
-      - default
+      - metricsnet
 
 # Grafana: Data Visualization for collected metrics
   grafana:
@@ -94,11 +94,54 @@ services:
     ports:
       - '3000:3000'
     networks:
-      - default
+      - metricsnet
+
+# Logstash: Log Collector and Log Parser
+  logstash:
+    build: ./logstash
+    image: logstash-rsyslog:7.1.1
+    volumes:
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - logstash-data:/usr/share/logstash/data
+    depends_on:
+      - kibana
+    ports:
+      - '5000:5000'
+    networks:
+      - logsnet
+
+# ElasticSearch: Database and Search Engine for Logs
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
+    environment:
+      - cluster.name=monitoring-elastic-cluster
+      - discovery.type=single-node
+    volumes:
+      - elasticsearch-storage:/usr/share/elasticsearch/data
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    networks:
+      - logsnet
+
+# Kibana: UI and Dashboards for Log Search and Visualization
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.1.1
+    environment:
+      CSP_STRICT: 'true'
+    depends_on:
+      - elasticsearch
+    ports:
+      - '5601:5601'
+    networks:
+      - logsnet
 
 networks:
-  default:
+  metricsnet:
+  logsnet:
 
 volumes:
   influxdb-storage:
   grafana-storage:
+  logstash-data:
+  elasticsearch-storage:
