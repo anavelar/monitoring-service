@@ -1,18 +1,23 @@
-A distributed Monitoring Service build as a Docker Swarm service for Hadoop and
-Spark monitoring as well as general monitoring.
+A Monitoring Service for Cloud Monitoring, build as a Docker Stack Service.
 
 Containerized services (WIP):
 
-- [x] Sensu (server, client, api and uchiwa);
-- [x] Redis;
-- [x] InfluxDB;
-- [x] Grafana;
-- [ ] Collectd;
-- [ ] ElasticSearch;
-- [ ] Logstash;
-- [ ] Kibana;
-- [x] RabbitMQ as a transport layer;
-- [ ] Riemann;
+- [x] Local Metrics and Application data Collector: Sensu;
+- [x] Metrics and Application data Database: InfluxDB;
+- [x] Metrics and Application data Dashboards: Grafana;
+- [x] Local Logs collector: Rsyslog
+- [x] Logs receiving, treatment and pasing: Logstash;
+- [x] Logs Database and Search Engine: ElasticSearch;
+- [x] Logs UI for Search and Visualization: Kibana;
+
+
+The Monitoring Service works in a client - server way:
+
+* A dedicated server runs the monitoring service, having all components unified in a single docker compose stack.
+
+* Monitored entities (monitored hosts, cloud's component hosts) send their local collected data 
+to the server. A Sensu agent and a rsyslog daemon on the host collect these data and send to the monitoring server.
+Directory _monitored-hosts_ here has client/monitored host nedeed agent and configuration.
 
 ##### Para ativar a monitoração
 
@@ -98,3 +103,10 @@ grafana/provisioning/dashboards
 
   Caso seja uma alteração em Dashboard existente, substituir o json antigo pelo novo. Caso seja um novo Dashboard, inserir
   o novo arquivo no diretório.
+
+
+##### ATENÇÃO - Mudança da versão dos componentes de logs
+
+Ao atualizar componentes de logs (ElasticSearch, Kibana, Logstash) é recomendado backup
+dos dados além de seguir todas as recomendações da documentação oficial para cada
+componente. Consultar as recomendações da documentação oficial antes de executar atualização.
