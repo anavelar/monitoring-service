@@ -1,6 +1,6 @@
 FROM sstarcher/sensu:1.4.3
 
-# Install custom plugins for client local checks
+# Necessary for sensu local checks
 RUN sensu-install -p cpu-checks && \
     sensu-install -p memory-checks && \
     sensu-install -p load-checks && \
@@ -9,6 +9,13 @@ RUN sensu-install -p cpu-checks && \
     sensu-install -p io-checks && \
     sensu-install -p uptime-checks
 
-# Install for using in io-checks
+# Necessary to execute sensu io-checks
 RUN apt-get update && \
     apt-get install sysstat -y
+
+# Necessary to send logs to server
+RUN apt-get -y install rsyslog && \
+    rm /etc/rsyslog.conf
+
+# precisa tambem configurar para iniciar no boot
+# nao starta sozinho

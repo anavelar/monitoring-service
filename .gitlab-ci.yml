@@ -7,6 +7,7 @@ deploy:
   stage: deploy
   script:
   - docker image build -t sensu:1.4.3 ./sensu
+  - docker image build -t logstash-rsyslog:7.1.1 ./logstash
   - sed -i
        -e "s/SMTP_USER/${SMTP_USER}/"
        -e "s/SMTP_PASSWD/${SMTP_PASSWD}/"

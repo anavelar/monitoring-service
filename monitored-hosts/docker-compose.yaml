@@ -5,7 +5,7 @@ services:
 
   client-ceph-mon-speed:
     build: .
-    image: sensu-plugins:1.4.3
+    image: monitored-host:1.4.3
     command: client
     hostname: ceph-mon-08 
     environment:
@@ -16,15 +16,17 @@ services:
       CLIENT_DEREGISTER: 'false'
       CLIENT_KEEPALIVE_HANDLER: 'mailer'
     volumes:
-     - ./check.d:/etc/sensu/conf.d/checks
+     - ./sensu:/etc/sensu/conf.d/checks
+     - ./rsyslog/rsyslog.conf:/etc/rsyslog.conf
     ports:
       - '3030'
     networks:
-      - default
+      - metricsnet
+      - logsnet
 
   client-ceph-mon-local:
     build: .
-    image: sensu-plugins:1.4.3
+    image: monitored-host:1.4.3
     command: client
     hostname: ceph-mon-09
     environment:
@@ -35,15 +37,17 @@ services:
       CLIENT_DEREGISTER: 'false'
       CLIENT_KEEPALIVE_HANDLER: 'mailer'
     volumes:
-     - ./check.d:/etc/sensu/conf.d/checks
+     - ./sensu:/etc/sensu/conf.d/checks
+     - ./rsyslog/rsyslog.conf:/etc/rsyslog.conf
     ports:
       - '3030'
     networks:
-      - default
+      - metricsnet
+      - logsnet
 
   client-ceph-mon-pdu:
     build: .
-    image: sensu-plugins:1.4.3
+    image: monitored-host:1.4.3
     command: client
     hostname: ceph-mon-pdu-09 
     environment:
@@ -54,15 +58,17 @@ services:
       CLIENT_DEREGISTER: 'false'
       CLIENT_KEEPALIVE_HANDLER: 'mailer'
     volumes:
-     - ./check.d:/etc/sensu/conf.d/checks
+     - ./sensu:/etc/sensu/conf.d/checks
+     - ./rsyslog/rsyslog.conf:/etc/rsyslog.conf
     ports:
       - '3030'
     networks:
-      - default
+      - metricsnet
+      - logsnet
 
   client-ceph-osd-speed:
     build: .
-    image: sensu-plugins:1.4.3
+    image: monitored-host:1.4.3
     command: client
     hostname: ceph-osd-08
     environment:
@@ -73,15 +79,17 @@ services:
       CLIENT_DEREGISTER: 'false'
       CLIENT_KEEPALIVE_HANDLER: 'mailer'
     volumes:
-     - ./check.d:/etc/sensu/conf.d/checks
+     - ./sensu:/etc/sensu/conf.d/checks
+     - ./rsyslog/rsyslog.conf:/etc/rsyslog.conf
     ports:
       - '3030'
     networks:
-      - default
+      - metricsnet
+      - logsnet
 
   client-ceph-osd-local:
     build: .
-    image: sensu-plugins:1.4.3
+    image: monitored-host:1.4.3
     command: client
     hostname: ceph-osd-09
     environment:
@@ -92,15 +100,17 @@ services:
       CLIENT_DEREGISTER: 'false'
       CLIENT_KEEPALIVE_HANDLER: 'mailer'
     volumes:
-     - ./check.d:/etc/sensu/conf.d/checks
+     - ./sensu:/etc/sensu/conf.d/checks
+     - ./rsyslog/rsyslog.conf:/etc/rsyslog.conf
     ports:
       - '3030'
     networks:
-      - default
+      - metricsnet
+      - logsnet
 
   client-type-proj:
     build: .
-    image: sensu-plugins:1.4.3
+    image: monitored-host:1.4.3
     command: client
     hostname: compute-speed-09
     environment:
@@ -111,15 +121,17 @@ services:
       CLIENT_DEREGISTER: 'false'
       CLIENT_KEEPALIVE_HANDLER: 'mailer'
     volumes:
-     - ./check.d:/etc/sensu/conf.d/checks
+     - ./sensu:/etc/sensu/conf.d/checks
+     - ./rsyslog/rsyslog.conf:/etc/rsyslog.conf
     ports:
       - '3030'
     networks:
-      - default
+      - metricsnet
+      - logsnet
 
   client-monitor:
     build: .
-    image: sensu-plugins:1.4.3
+    image: monitored-host:1.4.3
     command: client
     hostname: monitor-speed-09 
     environment:
@@ -130,13 +142,18 @@ services:
       CLIENT_DEREGISTER: 'false'
       CLIENT_KEEPALIVE_HANDLER: 'mailer'
     volumes:
-     - ./check.d:/etc/sensu/conf.d/checks
+     - ./sensu:/etc/sensu/conf.d/checks
+     - ./rsyslog/rsyslog.conf:/etc/rsyslog.conf
     ports:
       - '3030'
     networks:
-      - default
+      - metricsnet
+      - logsnet
 
 networks:
-  default:
+  metricsnet:
     external:
-      name: monitoring-service_default
+      name: monitoring-service_metricsnet
+  logsnet:
+    external:
+      name: monitoring-service_logsnet
