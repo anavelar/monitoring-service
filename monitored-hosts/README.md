@@ -25,17 +25,20 @@ $ docker-compose -f docker-compose-single.yaml up -d
 
 ---
 
-#### Testes com os checks aqui <--> ambiente de produção puppet
+#### Checks Sensu
 
+* **ATENÇÃO!** Ao inserir novo check:
+  * Instalar o plugin dele na imagem do container cliente
+  * Colocar no check o handler metrics, como os do exemplo (É este que faz enviar para o InfluxDB)
+
+* **Para testes com os checks aqui <--> ambiente de produção puppet**:
 Ao copiar checks dos clients direto do ambiente produção, trocar dentro dos
 checks, no comando executável deles, esta parte do caminho
 ```/opt/sensu/embedded/bin/``` por ```/usr/local/bundle/bin/```.
-
 Os plugins / executáveis dos clientes de teste ficam em lugares diferentes
 nos clientes de produção.
 
 ---
-
 #### Possível erro na rede Docker
 
 Ao subir os serviços (*docker-compose up -d*), ele procura a rede citada no
