@@ -1,3 +1,0 @@
-[submodule "monitoring-service.wiki"]
-	path = doc
-	url = git@git.speed.dcc.ufmg.br:lsl/monitoring-service.wiki.git
