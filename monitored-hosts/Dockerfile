@@ -16,6 +16,6 @@ RUN apt-get update && \
 # Necessary to send logs to server
 RUN apt-get -y install rsyslog && \
     rm /etc/rsyslog.conf
-
-# precisa tambem configurar para iniciar no boot
-# nao starta sozinho
+    # && 
+    # precisa tambem configurar para iniciar no boot, nao starta sozinho
+    # (systemctl / systemV etc)

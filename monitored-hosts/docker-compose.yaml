@@ -9,7 +9,7 @@ services:
     command: client
     hostname: ceph-mon-08 
     environment:
-      CLIENT_NAME: ceph-mon-08.speed.dcc.ufmg.br
+      CLIENT_NAME: ceph-mon-08
       TRANSPORT_NAME: rabbitmq
       CLIENT_SUBSCRIPTIONS: all
       CLIENT_ADDRESS: 192.168.100.1
@@ -30,7 +30,7 @@ services:
     command: client
     hostname: ceph-mon-09
     environment:
-      CLIENT_NAME: ceph-mon-09.local
+      CLIENT_NAME: ceph-mon-09
       TRANSPORT_NAME: rabbitmq
       CLIENT_SUBSCRIPTIONS: all
       CLIENT_ADDRESS: 192.168.100.2
@@ -51,7 +51,7 @@ services:
     command: client
     hostname: ceph-mon-pdu-09 
     environment:
-      CLIENT_NAME: ceph-mon-pdu-09.local
+      CLIENT_NAME: ceph-mon-pdu-09
       TRANSPORT_NAME: rabbitmq
       CLIENT_SUBSCRIPTIONS: all
       CLIENT_ADDRESS: 192.168.100.3
@@ -72,7 +72,7 @@ services:
     command: client
     hostname: ceph-osd-08
     environment:
-      CLIENT_NAME: ceph-osd-08.speed.dcc.ufmg.br
+      CLIENT_NAME: ceph-osd-08
       TRANSPORT_NAME: rabbitmq
       CLIENT_SUBSCRIPTIONS: all
       CLIENT_ADDRESS: 192.168.100.4
@@ -93,7 +93,7 @@ services:
     command: client
     hostname: ceph-osd-09
     environment:
-      CLIENT_NAME: ceph-osd-09.local
+      CLIENT_NAME: ceph-osd-09
       TRANSPORT_NAME: rabbitmq
       CLIENT_SUBSCRIPTIONS: all
       CLIENT_ADDRESS: 192.168.100.5
@@ -114,7 +114,7 @@ services:
     command: client
     hostname: compute-speed-09
     environment:
-      CLIENT_NAME: compute-speed-09.local
+      CLIENT_NAME: compute-speed-09
       TRANSPORT_NAME: rabbitmq
       CLIENT_SUBSCRIPTIONS: all
       CLIENT_ADDRESS: 192.168.100.6
@@ -135,7 +135,7 @@ services:
     command: client
     hostname: monitor-speed-09 
     environment:
-      CLIENT_NAME: monitor-speed-09.speed.dcc.ufmg.br
+      CLIENT_NAME: monitor-speed-09
       TRANSPORT_NAME: rabbitmq
       CLIENT_SUBSCRIPTIONS: all
       CLIENT_ADDRESS: 192.168.100.7

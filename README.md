@@ -1,112 +1,104 @@
-A Monitoring Service for Cloud Monitoring, build as a Docker Stack Service.
+# DOC IN PROGRESS 
 
-Containerized services (WIP):
+Este repositório contém um sistema para monitorar ambientes em nuvem,
+composto por diversos componentes (cada um com uma função) interligados.
+O sistema de monitoração monitora hosts e aplicações nestes. Estes hosts podem
+ser máquinas físicas ou virtuais no data center.
 
-- [x] Local Metrics and Application data Collector: Sensu;
-- [x] Metrics and Application data Database: InfluxDB;
-- [x] Metrics and Application data Dashboards: Grafana;
-- [x] Local Logs collector: Rsyslog
-- [x] Logs receiving, treatment and pasing: Logstash;
-- [x] Logs Database and Search Engine: ElasticSearch;
-- [x] Logs UI for Search and Visualization: Kibana;
+#### Sumário
 
+1. [Visão Geral da Arquitetura](#arquitetura)
+   1. [Servidor](#servidor)
+   2. [Clientes: Hosts monitorados](#hosts)
 
-The Monitoring Service works in a client - server way:
+2. [Documentação extensa e projeto](#doccompleta)
 
-* A dedicated server runs the monitoring service, having all components unified in a single docker compose stack.
+3. Implementação e código <a name="secaoimpl"></a>
+   1. [Como iniciar a monitoração e operações frequentes](./INSTRUCOES.md)
+   2. [Implementação da Arquitetura, componentes, quem é quem no código](./aux/documentation/implementacao.md)
 
-* Monitored entities (monitored hosts, cloud's component hosts) send their local collected data 
-to the server. A Sensu agent and a rsyslog daemon on the host collect these data and send to the monitoring server.
-Directory _monitored-hosts_ here has client/monitored host nedeed agent and configuration.
+---
 
-##### Para ativar a monitoração
+#### 1. Arquitetura <a name="arquitetura"></a> 
 
-```
-$ docker-compose up -d
-```
+O funcionamento do sistema de monitoramento pode ser visto aqui:
 
-##### Configurações recomendadas
+![monitoramento](./aux/documentation/doc-auxiliar-files/components.png)
 
-Todos os serviços estão com user, senha, vhost etc padrões da aplicação.
-O que não é padrão está documentado aqui e explicitado nos arquivos de configuração
-e variáveis do docker-compose principal.
+As setas representam o fluxo de dados.
 
-* É recomendado escolher um tempo de expiração para o armazenamento dos dados coletados (meses, semanas, etc).
-Caso não seja escolhido nenhum dado nunca será automaticamente removido com o tempo. Porém o espaço em disco
-para o armazenamento será crescente e pode até preencher todo o espaço em disco.
+O processo de monitoração funciona em modelo cliente-servidor: Os dados são
+coletados nos clientes, que são os hosts monitorados, por meio de um agente
+coletor local. Cada host envia seus dados coletados através da rede para o
+servidor de monitoração, servidor dedicado executando os serviços aqui de 
+monitoração.
 
-Para definir um tempo de expiração:
-(No exemplo, está sendo definido como 3 semanas. Para escolher outro tempo, mudar o número 3 pelo desejado e
-w para week, d para day, etc - notações conforme padrões InfluxQL na documentação online do InfluxDB 1.7.)
+##### A. Hosts monitorados <a name="hosts"></a>
 
-* Lista os containers:
+Em cada host monitorado, são coletados os logs gerados nele e métricas 
+dele (que são medições de desempenho de recursos e de aplicações nele).
 
-```
-$ docker ps
-```
+- Para coletar os logs de um host, instruímos, através de arquivos de
+configuração, o gerenciador de logs do Sistema Operacional do host à 
+enviar os logs coletados a um servidor remoto (ao invés de salvar em 
+arquivos locais).
 
-* A partir dos containers listados, copia a CONTAINER ID do container influxdb (o que tem a imagem _influxdb:1.7.6_
-na coluna ao lado da ID).
+> Estes arquivos de configuração estão na pasta `monitored-hosts/rsyslog`.
 
-* Entra no conatiner InfluxDB:
-Onde se substitui <CONTAINER ID> pelo número copiado do primeiro passo, retirando os <> e deixando só a ID:
+- Para medir o desempenho de aplicações do host e medir o uso de recursos 
+dele são executados nele scripts de medição. 
 
-```
-$ docker exec -it <CONTAINER ID> bash
-```
+> Esses scripts de medição são primeiro instalados em cada host, e depois
+são colocadas instruções no host para usar estes scripts de medição de
+tempo em tempo. 
 
-* Acessa o InfluxDB de dentro do container:
+##### B. Servidor de monitoração  <a name="servidor"></a>
 
-```
-$ influx
-```
+O servidor compreende todos os serviços da monitoração no diagrama fora a 
+coleta de dados em cada host. A ideia é, primeiramente, poder visualizar o que está ocorrendo em cada host e saber quando estão ocorrendo cenários 
+críticos.
 
-* Altera o tempo de expiração dos dados:
+Para poder visualizar os dados, os dados são coletados, armazenados (em 
+bancos de dados) e depois então acessados para visualização. A parte de 
+detecção de cenários críticos é feita por alertas.
 
-```
-$ CREATE RETENTION POLICY sensurp ON sensu DURATION 3w REPLICATION 1 SHARD DURATION 1d DEFAULT
-```
+É importante ver que temos três cores para os componentes da monitoração.
+Os componentes coloridos de verde são os componentes por onde passa o fluxo
+de dados dos logs. Os componentes coloridos de rosa são por onde passa o 
+fluxo de dados das métricas, medições de desempenho. O componente amarelo 
+exibe nem um nem outro: exibe uma visão geral do sistema, visão geral de 
+quais hosts estão sendo monitorados, é uma visão dos hosts. **Pode-se 
+perguntar porque fluxos diferentes para os dados**. Isto se dá devido aos 
+tipos de dados: logs são dados com formato variável e com muito texto. 
+Métricas são dados com formato bem padronizado e comum, e dados totalmente 
+ numéricos. Assim, estes dados tem demandas diferentes de tratamento, o 
+que motiva a separação dos fluxos.
 
-* Remove o tempo antigo (opciona sugerido):
+Além dos componentes de visualização dos dados e dos bancos de dados, 
+vemos mais dois componentes no servidor de monitoração, alertas e parsing 
+dos dados. O componente de alertas serve para enviar alertas quando 
+ocorrem cenários críticos de medição. O componente parsing serve para 
+fazer a entrada de dados dos logs nos bancos de dados: informa ao Banco de
+ Dados quais campos interpretar de que forma, visto que não tem tamanho 
+definido e os dados são quase todos texto puro. 
 
-```
-$ DROP RETENTION POLICY autogen ON sensu
-```
+#### 2. Documentação extensa  <a name="doccompleta"></a>
 
-* Sai do InfluxDB:
+A arquitetura de monitoração usada aqui se chama Seshat e foi proposta 
+[NESTE DOCUMENTO](./aux/documentation/project-guides/arquitetura-seshat.pdf)
+que explica de forma completa motivações, decisões, ferramentas. Há uma 
+implementação dela que monitora além de ambientes em nuvem, monitora 
+o comportamento de aplicações e energético ao processar _Big Data_ 
+[NESTE REPOSITÓRIO](https://github.com/viniiciusconceicao/monitoring-service).
 
-```
-$ exit
-```
+A arquitetura Seshat proposta foi usada no repositório atual para monitorar um 
+ambiente em nuvem em geral: monitorar a própria nuvem e seu comportamento, 
+monitoramento da infraestrutura. O uso de Seshat para construir uma monitoração 
+com esta finalidade (a adaptação para o data center aqui) é documentado de forma
+ extensa
+[NESTE DOCUMENTO](./aux/documentation/project-guides/seshat-adaptada.pdf). 
 
-* Sai do container InfluxDB:
-
-```
-$ exit
-```
-
-##### Personalizações
-
-* Para ativar notificações de queda e retorno de hosts monitorados por e-mail:
-  Preencher valores no arquivo _services/sensu/server/conf/handlers/mailer.json_.
-
-* Automatizar Novos Dashboards e Dashboards alterados
-  Ao alterar Dashboards existentes ou ao criar novos Dashboards no Grafana, isso pode ser salvo para ser automatizado,
-  de modo que a personalização não se perca se houver problema com os dados / disco / volumes.
-
-  Para tal, na tela do Dashboard criado ou alterado clique em _salvar_. Isso irá gerar um arquivo _.json_, que deve ser
-  colocado no diretório abaixo:
-
-```
-grafana/provisioning/dashboards
-```
-
-  Caso seja uma alteração em Dashboard existente, substituir o json antigo pelo novo. Caso seja um novo Dashboard, inserir
-  o novo arquivo no diretório.
-
-
-##### ATENÇÃO - Mudança da versão dos componentes de logs
-
-Ao atualizar componentes de logs (ElasticSearch, Kibana, Logstash) é recomendado backup
-dos dados além de seguir todas as recomendações da documentação oficial para cada
-componente. Consultar as recomendações da documentação oficial antes de executar atualização.
+>>>
+Para apenas saber sobre implementação, funcionamento, organização do código e 
+operações acesse a [SEÇÃO IMPLEMENTAÇÃO](#secaoimpl).
+>>>

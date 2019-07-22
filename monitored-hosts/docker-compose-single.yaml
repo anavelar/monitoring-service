@@ -8,7 +8,7 @@ services:
     command: client
     hostname: compute-pro-09
     environment:
-      CLIENT_NAME: compute-pro-09.local
+      CLIENT_NAME: compute-pro-09
       TRANSPORT_NAME: rabbitmq
       CLIENT_SUBSCRIPTIONS: all
       CLIENT_ADDRESS: 192.168.200.3

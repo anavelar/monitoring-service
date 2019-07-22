@@ -1,0 +1,21 @@
+---
+version: '3'
+
+# Compose para o servico InfluxDB sozinho,
+# desconectado do sensu para entrada de dados
+# e sem nenhum banco de dados, só o serviço puro.
+
+services:
+
+  influxdb:
+    image: influxdb:1.7.6
+    volumes:
+      - "./influxdb.conf:/etc/influxdb/influxdb.conf"
+      - "/srv/monitoring-service/influxdb_alone_data:/var/lib/influxdb"  
+    ports:
+      - "8086:8086"
+    networks:
+      - netinfluxdb
+
+networks:
+  netinfluxdb:

@@ -1,0 +1,21 @@
+{
+  "client": {
+    "name": "the-sims-metal-client",
+    "address": "127.0.0.1",
+    "safe_mode": false,
+    "deregister": false,
+    "keepalive": {
+      "thresholds": {
+        "critical": 140
+      },
+      "handler": "mailer"
+    },
+    "socket": {
+      "bind": "127.0.0.1",
+      "port": 3030
+    },
+    "subscriptions": [
+      "default"
+    ]
+  }
+}

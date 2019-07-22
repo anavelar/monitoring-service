@@ -47,7 +47,7 @@ services:
     networks:
       - metricsnet
 
-# Uchiwa: Sensu's Dashboard
+# Uchiwa: Hosts Dashboard and Sensu services Dashboard
   uchiwa:
     image: sstarcher/uchiwa:0.25.2
     environment:
@@ -96,7 +96,7 @@ services:
     networks:
       - metricsnet
 
-# Logstash: Log Collector and Log Parser
+# Logstash: Log Treatment and Parser
   logstash:
     build: ./logstash
     image: logstash-rsyslog:7.1.1

@@ -1,12 +1,12 @@
 {
     "mailer" :  {
-        "admin_gui": "monitor-speed-01.speed.dcc.ufmg.br",
-        "mail_from": "noreply@speed.dcc.ufmg.br",
-        "mail_to": "guimalufb@gmail.com",
+        "admin_gui": "admin.gui",
+        "mail_from": "noreply@email.com",
+        "mail_to": "email-that-will-receive-notifications@email.com",
         "delivery_method": "smtp",
-        "smtp_address": "smtp.dcc.ufmg.br",
+        "smtp_address": "smtp.domain.org.br",
         "smtp_port": "587",
-        "smtp_domain": "dcc.ufmg.br",
+        "smtp_domain": "domain.org.br",
         "smtp_enable_starttls_auto": "true",
         "smtp_username" : "SMTP_USER",
         "smtp_password" : "SMTP_PASSWD"

@@ -1,0 +1,21 @@
+--- 
+version: '3'
+
+services:
+
+#Grafana: Dashboard for metrics
+  grafana:
+    image: grafana/grafana:6.1.3
+    environment:
+      HOSTNAME: grafana
+      GF_ANALYTICS_REPORTING_ENABLE: 'false'
+    user: "0"
+    volumes:
+      - "/srv/monitoring-service/grafana_data:/var/lib/grafana"  
+    ports:
+      - "3000:3000" 
+    networks:
+      - grafanatest
+
+networks:
+  grafanatest:

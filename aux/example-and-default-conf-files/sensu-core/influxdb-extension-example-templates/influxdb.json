@@ -1,0 +1,14 @@
+{
+  "influxdb": {
+    "database": "sensu",
+    "host": "influxdb",
+    "port": "8086",
+    "username": "sensu",
+    "password": "sensu",
+    "use_ssl": false,
+    "templates": [
+      {"^sensu\\.checks\\..*": "source.measurement.field*"},
+      {".*\\.cgroup\\..*": "host.path.component"}
+    ]
+  }
+}
